@@ -7,3 +7,4 @@ library(devtools)
 
 install_github("s-ryan1/Covariance_RMT_simulations/cpt.cov")
 
+A simple example for how to run our method is provided in the file ratio_example.R
