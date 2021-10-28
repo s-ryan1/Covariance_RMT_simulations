@@ -1,0 +1,10 @@
+Package: cpt.cov
+Version: 0.1
+Imports: purrr,
+         rlang,
+         MASS,
+         sde,
+         glasso,
+         geigen,
+         expm,
+RoxygenNote: 6.1.1
