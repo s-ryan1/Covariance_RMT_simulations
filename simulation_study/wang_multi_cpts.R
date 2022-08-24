@@ -38,12 +38,15 @@ run.sim = function(i, n, p){
     wang.thresh = wang.threshold(data)
     result.wang = bin.seg(data, c(0,n), wang.stat, threshold=wang.thresh, minseglen=p*log(n), c())
     wang = result.wang %>% bin.seg.to.cpt(wang.thresh)
+    result.galeano = bin.seg(data, c(0,n), cpt.cov:::galeano.cusumtest.stat, threshold=qnorm(1-.05/(500^2)), minseglen=40, c())
+    galeano = result.galeano %>% bin.seg.to.cpt(log(n))
     #print(fisher$cpts)
 
 
 
     fisher.cpt.error = detection.rates(fisher$cpts, cpts, 20)
     wang.cpt.error = detection.rates(wang$cpts, cpts, 20)
+    galeano.cpt.error = detection.rates(galeano$cpts, cpts, 20)
 	#set.seed(353*n + 541*p + 7*i)
     #return(max(matrix.dist.test.stat(data, 4*p), na.rm=T))
 
@@ -54,7 +57,7 @@ run.sim = function(i, n, p){
             aue = result.aue[[1]] %>% bin.seg.to.cpt(qnorm(.95))
             aue.cpt.error = detection.rates(aue$cpts, cpts, 20)
         }
-        models = list(fisher$cpts, wang$cpts, aue$cpts)
+        models = list(fisher$cpts, wang$cpts, aue$cpts, galeano$cpts)
         rates = map(models, detection.rates, cpts, 20)
         m_hat = map_dbl(rates, ~.x$m)
         TDR = map_dbl(rates, ~.x$TDR)
@@ -62,14 +65,14 @@ run.sim = function(i, n, p){
         mae = map_dbl(models, MAE,  cpts, data) 
         smae = map_dbl(models, spectral.error,  cpts, data) 
         result = tibble(
-                        method=c("Ratio", "Wang", "Aue"),
+                        method=c("Ratio", "Wang", "Aue", "Galeano"),
                         TDR=TDR, FDR=FDR, m_hat=m_hat, 
                         MAE=mae, SMAE=smae, n=n, p=p, power=diff)
         result = result %>% gather("metric", "value",-method,-n,-p,-power)
         return(result)
     }
 
-    models = list(fisher$cpts, wang$cpts)
+    models = list(fisher$cpts, wang$cpts, galeano$cpts)
 print(cpts)
 print(models)
     rates = map(models, detection.rates, cpts, 20)
@@ -79,7 +82,7 @@ print(models)
     mae = map_dbl(models, MAE,  cpts, data) 
     smae = map_dbl(models, spectral.error,  cpts, data) 
     result = tibble(
-                    method=c("Ratio", "Wang"),
+                    method=c("Ratio", "Wang", "Galeano"),
                     TDR=TDR, FDR=FDR, m_hat=m_hat, 
                     MAE=mae, SMAE=smae, n=n, p=p, power=diff)
     result = result %>% gather("metric", "value",-method,-n,-p,-power)
