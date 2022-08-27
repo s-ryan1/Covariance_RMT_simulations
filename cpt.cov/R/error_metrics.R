@@ -3,7 +3,7 @@ detection.rates = function(cpts.est, cpts.true, detect.interval){
     cpts = cross2(cpts.est, cpts.true)
     cpts = discard(cpts, ~abs(.x[[1]] - .x[[2]]) > detect.interval)
     correct.locs = unique(map_dbl(cpts, ~.x[[2]]))
-    tdr = 0; fdr=1;
+    tdr = 0; fdr=0;
     if(length(cpts.true)>0 & length(correct.locs)>0){
             tdr = length(correct.locs)/length(cpts.true)
     }
