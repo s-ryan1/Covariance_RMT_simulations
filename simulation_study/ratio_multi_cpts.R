@@ -37,8 +37,8 @@ run.sim = function(i, n, p){
     result.wang = bin.seg(data, c(0,n), wang.stat, threshold=wang.thresh, minseglen=p*log(n), c())
     wang = result.wang %>% bin.seg.to.cpt(wang.thresh)
     print(fisher$cpts)
-    result.galeano = bin.seg(data, c(0,n), cpt.cov:::galeano.cusum.stat, threshold=qnorm(1-.05/(500^2)), minseglen=40, c())
-    galeano = result.galeano %>% bin.seg.to.cpt(log(n))
+    result.galeano = bin.seg(data, c(0,n), cpt.cov:::galeano.cusum.stat, threshold=qnorm(1-.05/(n^2)), minseglen=40, c())
+    galeano = result.galeano %>% bin.seg.to.cpt(qnorm(1-.05/(n^2)))
 
 
     fisher.cpt.error = detection.rates(fisher$cpts, cpts, 20)
