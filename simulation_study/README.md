@@ -19,10 +19,10 @@ These files were used in the creation of the simulation study for "Detecting cha
   Used to create the null scenarios for the single changepoint setting in Figure 3.1.
   
 - ratio_multi_cpts.R
-  Used to create the results for the scenarios for the multiple changepoint setting in Section 5.2.
+  Used to create the results for the scenarios for the multiple changepoint setting in Section 5.2, Table 5.1.
   
 - single_change.R
   Used to create the single changepoint results in Section 5.1.
   
 - wang_multi_cpts.R
-  Used to create the results for the scenarios for a multiple changepoint scenario with a different covariance structure (not reported).
+  Used to create the results for the scenarios for a multiple changepoint setting in Section 5.2, Table 5.2.
