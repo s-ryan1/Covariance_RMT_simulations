@@ -1,7 +1,7 @@
 #' @export
 bin.seg = function(data, parent, method, threshold, minseglen, params){
 
-    if(nrow(data) > 2*minseglen){
+    if(nrow(data) > 2*(minseglen+ncol(data))){
         test.stat = exec(method, data, minseglen, !!!params)
         candidate = which.max(test.stat)
         if(test.stat[candidate] > threshold){
